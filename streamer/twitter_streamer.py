@@ -7,29 +7,52 @@ from tweepy import OAuthHandler
 
 from credentails import twitter_credenatils as tc
 
-#Class which allow us to print the tweets
+#Class responsable for streaming the tweets
+class TwitterStreamer:
+    """
+    Class used for streaming and processing tweets directly in real time from twitter
+    """
+    def stream_tweets(self, filename, hashtags):
+        #Handling twitter auth and connect to the Streaming API
+        listener = StdOutListener(filename)
+        auth = OAuthHandler(tc.CONSUMER_API_KEY, tc.CONSUMER_API_SECRET_KEY)
+        auth.set_access_token(tc.ACCESS_TOKEN, tc.ACCESS_TOKEN_SECRET)
+
+        # Twitter stream
+        strm = Stream(auth, listener)
+        # listener is responsable for how to deal with data and errors
+
+        # Filtring tweets and focus on hashtags and keywords
+        strm.filter(track=hashtags)
+
+
+
+
 class StdOutListener(StreamListener):
-    #override
+    """
+    Basic listener class that just prints recived tweets to stdout (in console)
+    """
 
-    #print the data "IN" from the listener
+    def __init__(self, filename):
+        self.filename = filename
+
     def on_data(self, raw_data):
-        print(raw_data)
-        return 1
+        # print the data "IN" from the listener
+        try:
+            print(raw_data)
+            with open(self.filename, 'a') as f:
+                f.write(raw_data)
+        except BaseException as ex :
+            print("Error on_data method: ", str(ex))
 
-    #When error happens
     def on_error(self, status_code):
+        # When error happens
         print("ERROR: ", status_code)
-        return 0
 
 if __name__ == "__main__":
-    listener = StdOutListener()
-    auth = OAuthHandler(tc.CONSUMER_API_KEY, tc.CONSUMER_API_SECRET_KEY)
-    auth.set_access_token(tc.ACCESS_TOKEN, tc.ACCESS_TOKEN_SECRET)
+    hashtags = ['donald trump', 'hillary clinton', 'barack obama', 'bernie sanders']
+    filename = 'tweets.json'
 
-    #Twitter stream
-    strm = Stream(auth, listener)
-    #listener is responsable for how to deal with data and errors
-
-    #Filtring tweets and focus on hashtags and keywords
-    strm.filter(track=['donald trump', 'hillary clinton', 'barack obama', 'bernie sanders'])
+    tStreamer = TwitterStreamer()
+    tStreamer.stream_tweets(filename, hashtags)
 
