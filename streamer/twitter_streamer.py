@@ -16,24 +16,27 @@ class Client:
         self.tClient = API(self.auth)
         self.tUser = tUser
 
-    def get_tweets(self, num):
+    def get_tClient(self):
+        return self.tClient
+
+    def get_tweets(self, count):
         # Do not specify the twitter user (id = None), it will go on your own timeline
         tweets = []
-        for tweet in Cursor(self.tClient.user_timeline, id=self.tUser).items(num):
+        for tweet in Cursor(self.tClient.user_timeline, id=self.tUser).items(count):
             tweets.append(tweet)
         return tweets
 
-    def get_freinds(self, num):
+    def get_freinds(self, count):
         #function that return a list with a number of friends
         friends = []
-        for f in Cursor(self.tClient.friends, id=self.tUser).items(num):
+        for f in Cursor(self.tClient.friends, id=self.tUser).items(count):
             friends.append(f)
         return friends
 
-    def get_home_timeline(self, num):
+    def get_home_timeline(self, count):
         #function that return a number of tweets that appear in home page
         tweets = []
-        for tweet in Cursor(self.tClient.home_timeline, id=self.tUser).items(num):
+        for tweet in Cursor(self.tClient.home_timeline, id=self.tUser).items(count):
             tweets.append(tweet)
         return tweets
     
