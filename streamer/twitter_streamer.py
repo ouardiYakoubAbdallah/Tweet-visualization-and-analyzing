@@ -10,15 +10,35 @@ from credentails import twitter_credenatils as tc
 
 
 class Client:
-    def __init__(self):
+    def __init__(self, tUser=None):
+        #Do not specify the twitter user, it will go on your own timeline
         self.auth = TwitterAuthenticator().authenticate()
         self.tClient = API(self.auth)
+        self.tUser = tUser
 
-    def get_user_tweets(self, num):
+    def get_tweets(self, num):
+        # Do not specify the twitter user (id = None), it will go on your own timeline
         tweets = []
-        for tweet in Cursor(self.tClient.user_timeline).items(num):
+        for tweet in Cursor(self.tClient.user_timeline, id=self.tUser).items(num):
             tweets.append(tweet)
         return tweets
+
+    def get_freinds(self, num):
+        #function that return a list with a number of friends
+        friends = []
+        for f in Cursor(self.tClient.friends, id=self.tUser).items(num):
+            friends.append(f)
+        return friends
+
+    def get_home_timeline(self, num):
+        #function that return a number of tweets that appear in home page
+        tweets = []
+        for tweet in Cursor(self.tClient.home_timeline, id=self.tUser).items(num):
+            tweets.append(tweet)
+        return tweets
+    
+    
+    
 class TwitterAuthenticator:
 
     def authenticate(self):
@@ -78,9 +98,11 @@ if __name__ == "__main__":
     hashtags = ['donald trump', 'hillary clinton', 'barack obama', 'bernie sanders']
     filename = 'tweets.json'
 
-    #client = Client()
+    #me_client = Client()
     #print(client.get_tweets(5))
 
+    client = Client('Raouf_db')
+    print(client.get_tweets(1))
     tStreamer = TwitterStreamer()
     tStreamer.stream_tweets(filename, hashtags)
 
