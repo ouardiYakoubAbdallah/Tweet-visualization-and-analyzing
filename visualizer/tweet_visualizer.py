@@ -1,8 +1,6 @@
 from matplotlib import pyplot as plt
 import pandas as pd
 
-from analyzer.twitter_analyzer import *
-
 class TweetVisualizer:
     def __init__(self, dataframe, index, legend=None, figsize=(25,5)):
         self.dataframe = dataframe

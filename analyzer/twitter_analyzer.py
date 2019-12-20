@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 
 from streamer.twitter_streamer import Client
-from visualizer.tweet_visualizer import *
 
 class TweetAnalyzer:
     """
@@ -37,7 +36,3 @@ if __name__== '__main__':
     tweets = API.user_timeline(screen_name="tim_cook", count=10)
     df = analyzer.json_to_dataframe(tweets)
     print(df.head(10))
-
-    ta = TweetVisualizer(df, 'date', True)
-    ta.draw_single('likes','y')
-    ta.show()
