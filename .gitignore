@@ -131,6 +131,6 @@ dmypy.json
 #outputs
 streamer/tweets.json
 .idea/
-
+tweets.json
 
 .DS_Store

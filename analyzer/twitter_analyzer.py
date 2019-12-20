@@ -7,8 +7,10 @@ class TweetAnalyzer:
     """
     A whole set of functionality to analyze and categorize content and results from previously retrieved tweets
     """
+
     def json_to_dataframe(self, tweets):
-        df = pd.DataFrame(data=[tweet.text for tweet in tweets], columns=['tweets'])
+        df = pd.DataFrame()
+        df['tweets'] = np.array([tweet.text for tweet in tweets])
         df['id'] = np.array([tweet.id for tweet in tweets])
         df['length'] = np.array([len(tweet.text) for tweet in tweets])
         df['date'] = np.array([tweet.created_at for tweet in tweets])
@@ -29,10 +31,3 @@ class TweetAnalyzer:
         #function that return the RT's number for the most retweeted tweet
         return np.max(dataframe['retweets'])
 
-if __name__== '__main__':
-    client = Client()
-    analyzer = TweetAnalyzer()
-    API =client.get_tClient()
-    tweets = API.user_timeline(screen_name="tim_cook", count=10)
-    df = analyzer.json_to_dataframe(tweets)
-    print(df.head(10))

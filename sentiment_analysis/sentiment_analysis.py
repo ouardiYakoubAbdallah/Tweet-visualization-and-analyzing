@@ -10,11 +10,11 @@ class TweetCleanner:
 class SentimentAnalyzer:
 
     def analyze_sentiment(self, tweet_cleaned):
-        analysis = TextBlob(self, tweet_cleaned)
+        analysis = TextBlob(tweet_cleaned)
 
         if analysis.sentiment.polarity > 0 :
-            return 1
+            return 'Positive'
         elif analysis.sentiment.polarity == 0 :
-            return 0
+            return 'Neutral'
         else:
-            return -1
+            return 'Negative'

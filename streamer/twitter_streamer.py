@@ -97,15 +97,4 @@ class TwitterListener(StreamListener):
             return False
         print("ERROR: ", status_code)
 
-if __name__ == "__main__":
-    hashtags = ['donald trump', 'hillary clinton', 'barack obama', 'bernie sanders']
-    filename = 'tweets.json'
-
-    #me_client = Client()
-    #print(client.get_tweets(5))
-
-    client = Client('Raouf_db')
-    print(client.get_tweets(1))
-    tStreamer = TwitterStreamer()
-    tStreamer.stream_tweets(filename, hashtags)
 
